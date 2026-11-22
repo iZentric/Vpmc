@@ -1,0 +1,68 @@
+default-priority-ordering: LOWER_FIRST
+formats:
+  - ==: new-chat-format
+    name: default
+    priority: 99999
+    chat-color: '&7'
+    permission: ''
+    use-placeholder-api: true
+    parts:
+      - ==: chat-part
+        display: '&8(&#BFFCC6$%vault_eco_balance_formatted% ⛃&8) &8(&#FFD6A5%statistic_hours_played%h ⏳&8) &8(&#FF4444%statistic_player_kills% ⚔&8) %luckperms_prefix%{name}'
+        click-action: '[SUGGEST] /msg {name}'
+        tooltip:
+          - '&#F6D98B%player_name% &8(&7Profil jucător&8)'
+          - '&8 ■ Profil'
+          - ''
+          - '&8 ■ &#A8D8EAEconomie'
+          - '&8 ♮ &fBani: &#BFFCC6$%vault_eco_balance_formatted% ⛃'
+          - ''
+          - '&8 ■ &#A8D8EAStatistici'
+          - '&8 ♮ &fTimp jucat: &#FFD6A5%statistic_hours_played%h ⏳'
+          - '&8 ♮ &fOmoruri: &#FF4444%statistic_player_kills% ⚔'
+          - '&8 ♮ &fMorți: &#A2D2FF%statistic_deaths% ☠'
+          - '&8 ♮ &fMobile omorâte: &#D7AB93%statistic_mob_kills%'
+          - ''
+          - '&8 ■ &#A8D8EAProgres'
+          - '&8 ♮ &fGrad: &#D5AAFF%luckperms_primary_group_name%'
+          - '&8 ♮ &fNivel de putere: &#BFFCC6%auraskills_power% ✦'
+          - '&8 ♮ &fPești prinși: &#6BEAFF%statistic_fish_caught% 🎣'
+          - ''
+          - '&#A8D8EA (✔) Click pentru a trimite mesaj!'
+      - ==: chat-part
+        display: '&8 ► '
+        click-action: '[NONE] '
+        tooltip: []
+  - ==: new-chat-format
+    name: vip
+    priority: 99998
+    chat-color: '&f'
+    permission: 'ezchat.vip'
+    use-placeholder-api: true
+    parts:
+      - ==: chat-part
+        display: '&8(&#BFFCC6$%vault_eco_balance_formatted% ⛃&8) &8(&#FFD6A5%statistic_hours_played%h ⏳&8) &8(&#FF4444%statistic_player_kills% ⚔&8) %luckperms_prefix%{name}'
+        click-action: '[SUGGEST] /msg {name}'
+        tooltip:
+          - '&#F6D98B%player_name% &8(&7Profil jucător&8)'
+          - '&8 ■ Profil'
+          - ''
+          - '&8 ■ &#A8D8EAEconomie'
+          - '&8 ♮ &fBani: &#BFFCC6$%vault_eco_balance_formatted% ⛃'
+          - ''
+          - '&8 ■ &#A8D8EAStatistici'
+          - '&8 ♮ &fTimp jucat: &#FFD6A5%statistic_hours_played%h ⏳'
+          - '&8 ♮ &fOmoruri: &#FF4444%statistic_player_kills% ⚔'
+          - '&8 ♮ &fMorți: &#A2D2FF%statistic_deaths% ☠'
+          - '&8 ♮ &fMobile omorâte: &#D7AB93%statistic_mob_kills%'
+          - ''
+          - '&8 ■ &#A8D8EAProgres'
+          - '&8 ♮ &fGrad: &#D5AAFF%luckperms_primary_group_name%'
+          - '&8 ♮ &fNivel de putere: &#BFFCC6%auraskills_power% ✦'
+          - '&8 ♮ &fPești prinși: &#6BEAFF%statistic_fish_caught% 🎣'
+          - ''
+          - '&#A8D8EA (✔) Click pentru a trimite mesaj!'
+      - ==: chat-part
+        display: '&8 ► '
+        click-action: '[NONE] '
+        tooltip: []
