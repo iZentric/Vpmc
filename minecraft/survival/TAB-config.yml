@@ -1,4 +1,4 @@
-config-version: 2
+config-version: 7
 header-footer:
   enabled: true
   designs:
@@ -76,7 +76,7 @@ scoreboard:
         - '&8| &#ACFF6C⚑ &fProgres &7· &#ACFF6C%rnkoth_current_progress%'
         - '&8| &#F0FD5C⌛ &fTimp rămas &7· &#F0FD5C%rnkoth_current_time_left%'
         - ''
-        - '&8| &#1EA1FF☻ &fÎn zonă &7· &#1EA1FF%rnkoth_current_inside%'
+        - '&8| &b☻ &fÎn zonă &7· &b%rnkoth_current_inside%'
         - '&8| &#D7AB93⌚ &fTimpul tău &7· &#D7AB93%rnkoth_current_your_time%'
         - '&8| &#FF9A3D✦ &fLocație &7· &f%rnkoth_current_x%, %rnkoth_current_z%'
         - '  '
@@ -93,7 +93,7 @@ scoreboard:
         - ''
         - '&8| &#D7AB93☄ &fVoturi &7· &#D7AB93%superbvote_votes% voturi'
         - ''
-        - '&8| &#1EA1FF⌚ &fTimp jucat &7· &f%statistic_hours_played%h'
+        - '&8| &b⌚ &fTimp jucat &7· &f%statistic_hours_played%h'
         - '&8| &#FF4747⚔ &fUrmătorul KOTH &7· &#FF4747%rnkoth_next_time%'
         - ''
         - '&lᴘʟᴀʏ.ᴠɪᴘᴇʀ-ᴍᴄ.xʏᴢ'
