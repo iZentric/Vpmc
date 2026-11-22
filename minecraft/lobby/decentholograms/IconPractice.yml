@@ -1,0 +1,8 @@
+location: world:-33.500:5.900:4.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: IRON_SWORD'
+  - content: '&b&lPRACTICE &7Soon'
+  actions: {}

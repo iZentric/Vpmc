@@ -1,0 +1,8 @@
+location: world:4.500:6.320:0.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: YELLOW_DYE'
+  - content: '&e&lPARKOUR'
+  actions: {}

@@ -1,0 +1,8 @@
+location: world:-33.500:5.900:-3.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: GRASS'
+  - content: '&e&lONEBLOCK &7Soon'
+  actions: {}

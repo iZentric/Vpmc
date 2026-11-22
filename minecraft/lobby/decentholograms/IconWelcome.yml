@@ -1,0 +1,8 @@
+location: world:-6:6.220:0.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: HONEY_COMB'
+  - content: '&6&lBUN VENIT'
+  actions: {}

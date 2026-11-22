@@ -1,0 +1,8 @@
+location: world:-16.500:4.300:12.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: PINK_DYE'
+  - content: '&d&lSTORE'
+  actions: {}

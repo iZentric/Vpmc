@@ -1,0 +1,8 @@
+location: world:-35.500:5.900:0.500
+enabled: true
+display-range: 64
+pages:
+- lines:
+  - content: '#ICON: RAW_GOLD'
+  - content: '&a&lSURVIVAL'
+  actions: {}
