@@ -1,12 +1,12 @@
 location: world:0.496:6.100:-3.993
 enabled: true
-display-range: 64
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
 pages:
 - lines:
-  - content: '&9&lTOP KILLS'
-  - content: '&7#1 &f%ajlb_lb_statistic_player_kills_1_alltime_name% &8- &9%ajlb_lb_statistic_player_kills_1_alltime_value%'
-  - content: '&7#2 &f%ajlb_lb_statistic_player_kills_2_alltime_name% &8- &9%ajlb_lb_statistic_player_kills_2_alltime_value%'
-  - content: '&7#3 &f%ajlb_lb_statistic_player_kills_3_alltime_name% &8- &9%ajlb_lb_statistic_player_kills_3_alltime_value%'
-  - content: '&7#4 &f%ajlb_lb_statistic_player_kills_4_alltime_name% &8- &9%ajlb_lb_statistic_player_kills_4_alltime_value%'
-  - content: '&7#5 &f%ajlb_lb_statistic_player_kills_5_alltime_name% &8- &9%ajlb_lb_statistic_player_kills_5_alltime_value%'
+  - content: '#ICON: BLUE_DYE'
+    height: 0.3
   actions: {}

@@ -1,8 +1,12 @@
 location: world:-35.500:5.900:0.500
 enabled: true
-display-range: 64
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
 pages:
 - lines:
   - content: '#ICON: RAW_GOLD'
-  - content: '&a&lSURVIVAL'
+    height: 0.3
   actions: {}

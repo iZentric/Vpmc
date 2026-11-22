@@ -1,12 +1,12 @@
 location: world:0.506:6.100:4.998
 enabled: true
-display-range: 64
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
 pages:
 - lines:
-  - content: '&c&lTOP DEATHS'
-  - content: '&7#1 &f%ajlb_lb_statistic_deaths_1_alltime_name% &8- &9%ajlb_lb_statistic_deaths_1_alltime_value%'
-  - content: '&7#2 &f%ajlb_lb_statistic_deaths_2_alltime_name% &8- &9%ajlb_lb_statistic_deaths_2_alltime_value%'
-  - content: '&7#3 &f%ajlb_lb_statistic_deaths_3_alltime_name% &8- &9%ajlb_lb_statistic_deaths_3_alltime_value%'
-  - content: '&7#4 &f%ajlb_lb_statistic_deaths_4_alltime_name% &8- &9%ajlb_lb_statistic_deaths_4_alltime_value%'
-  - content: '&7#5 &f%ajlb_lb_statistic_deaths_5_alltime_name% &8- &9%ajlb_lb_statistic_deaths_5_alltime_value%'
+  - content: '#ICON: LIME_DYE'
+    height: 0.3
   actions: {}
