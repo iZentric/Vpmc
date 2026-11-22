@@ -1,0 +1,105 @@
+header-footer:
+  enabled: true
+  designs:
+    default:
+      header:
+      - ''
+      - '  &#%rp_primary_branding_color% &lSURVIVAL '
+      - '&7• (1.7x - 26.3x) •'
+      - ''
+      - '&#D7AB93Sunt conectați &#F6D98B%online% &#D7AB93jucători online'
+      - ''
+      footer:
+      - ''
+      - '❖ DISCORD ❖               ❖ MAGAZIN ❖'
+      - ' discord.gg/vipermc       store.viper-mc.xyz'
+      - ''
+      - '&8• &#D7AB93Te joci pe play.viper-mc.xyz &8•'
+      - ''
+tablist-name-formatting:
+  enabled: true
+  disable-condition: '%world%=disabledworld'
+scoreboard-teams:
+  enabled: true
+  enable-collision: true
+  invisible-nametags: false
+  sorting-types:
+    - "GROUPS:owner,admin,mod,helper,ultimate,legend,elite,vip,default"
+    - "PLACEHOLDER_A_TO_Z:%player%"
+  case-sensitive-sorting: true
+  can-see-friendly-invisibles: false
+  disable-condition: '%world%=disabledworld'
+playerlist-objective:
+  enabled: false
+  value: "%ping%"
+  fancy-value: "&7Ping: %ping%"
+  title: "TAB"
+  render-type: INTEGER
+  disable-condition: '%world%=disabledworld'
+belowname-objective:
+  enabled: false
+  value: "%health%"
+  fancy-value: "&#FF4444%health%"
+  fancy-value-default: "NPC"
+  title: "&#FF4444Viață"
+  disable-condition: '%world%=disabledworld'
+  view-distance: 10
+prevent-spectator-effect:
+  enabled: false
+bossbar:
+  enabled: false
+  toggle-command: /bossbar
+  remember-toggle-choice: false
+  hidden-by-default: false
+  bars:
+    ServerInfo:
+      style: "PROGRESS"
+      color: "%animation:barcolors%"
+      progress: "100"
+      text: "&fSite: &#A8D8EAplay.viper-mc.xyz"
+scoreboard:
+  enabled: true
+  toggle-command: /sb
+  remember-toggle-choice: true
+  hidden-by-default: false
+  delay-on-join-milliseconds: 0
+  scoreboards:
+    koth:
+      display-condition: "%rnkoth_near%=yes"
+      title: '&#FF4747&l⚔ STĂPÂNUL DEALULUI ⚔'
+      lines:
+        - '&r   &7⌚ %localtime_timezone_GMT-6,MMM d, yyyy%'
+        - ' '
+        - '&8| &#FF4747⚔ &fKOTH &7· &#FF4747%rnkoth_current_name%'
+        - '&8| &#FFBE5C☀ &fDeținător &7· &#FFBE5C%rnkoth_current_holder%'
+        - '&8| &#ACFF6C⚑ &fProgres &7· &#ACFF6C%rnkoth_current_progress%'
+        - '&8| &#F0FD5C⌛ &fTimp rămas &7· &#F0FD5C%rnkoth_current_time_left%'
+        - ''
+        - '&8| &#1EA1FF☻ &fÎn zonă &7· &#1EA1FF%rnkoth_current_inside%'
+        - '&8| &#D7AB93⌚ &fTimpul tău &7· &#D7AB93%rnkoth_current_your_time%'
+        - '&8| &#FF9A3D✦ &fLocație &7· &f%rnkoth_current_x%, %rnkoth_current_z%'
+        - '  '
+        - '%rp_server_ip_small_caps_sb%'
+    scoreboard:
+      title: '&#%rp_primary_branding_color%&lSURVIVAL'
+      lines:
+        - '&r   &7⌚ %localtime_timezone_GMT-6,MMM d, yyyy%'
+        - ' '
+        - '&8| &#FFBE5C☀ &fGrad &7· &#FFBE5C%vault_prefix%'
+        - '&8| &#ACFF6C⌛ &fPing &7· &#ACFF6C%ping%ᴍs'
+        - '&8| &#F0FD5C⛃ &fBani &7· &#F0FD5C⛁%vault_eco_balance_formatted%'
+        - '&8| &#FF9A3D⚔ &fOmoruri &7· &#FF9A3D%statistic_player_kills%'
+        - ''
+        - '&8| &#D7AB93☄ &fVoturi &7· &#D7AB93%superbvote_votes% voturi'
+        - ''
+        - '&8| &#1EA1FF⌚ &fTimp jucat &7· &f%statistic_hours_played%h'
+        - '&8| &#FF4747⚔ &fUrmătorul KOTH &7· &#FF4747%rnkoth_next_time%'
+        - ''
+        - '&lᴘʟᴀʏ.ᴠɪᴘᴇʀ-ᴍᴄ.xʏᴢ'
+layout:
+  enabled: false
+  direction: COLUMNS
+  default-skin: mineskin:37e93c8e12cd426cb28fce31969e0674
+  enable-remaining-players-text: true
+  remaining-players-text: '... și încă %s'
+  empty-slot-ping-value: 100
