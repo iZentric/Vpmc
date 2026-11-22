@@ -1,0 +1,16 @@
+specials:
+  start:
+    message: ''
+    commands: []
+  end:
+    message: ''
+    commands: []
+intervals:
+  '50':
+    message: '&aFelicitari! &7Ai ajuns la {SCORE} sarituri! &bPoftim un diamant!'
+    commands:
+    - give {PLAYER} diamond 1
+exceptions:
+  '1':
+    message: '&a&lFelicitari, ai facut o saritura!'
+    first-time-only: true
