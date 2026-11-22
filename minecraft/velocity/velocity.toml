@@ -1,0 +1,53 @@
+config-version = "2.9"
+bind = "0.0.0.0:25565"
+motd = "<#09add3>ViperMC <#f0f0f0>| <#00d4ff>Lobby si Survival"
+show-max-players = 500
+online-mode = false
+force-key-authentication = true
+prevent-client-proxy-connections = false
+player-info-forwarding-mode = "legacy"
+forwarding-secret-file = "forwarding.secret"
+announce-forge = false
+kick-existing-players = true
+enable-player-address-logging = false
+forced-hosts = {}
+
+[servers]
+	lobby = "169.58.65.236:25566"
+	survival = "169.58.65.236:25567"
+	try = ["lobby", "survival"]
+
+[advanced]
+	compression-threshold = 256
+	compression-level = 3
+	login-ratelimit = 0
+	connection-timeout = 6000
+	read-timeout = 30000
+	haproxy-protocol = false
+	tcp-fast-open = true
+	bungee-plugin-message-channel = true
+	show-ping-requests = false
+	failover-on-unexpected-server-disconnect = true
+	announce-proxy-commands = true
+	log-command-executions = false
+	log-player-connections = false
+	accepts-transfers = false
+
+[query]
+	enabled = false
+	port = 25565
+	map = "Velocity"
+	show-plugins = false
+
+[packet-limiter]
+	interval = 7
+	packets-per-second = -1
+	bytes-per-second = -1
+	decompressed-bytes-per-second = 5242880
+
+[ping-passthrough]
+	version = false
+	players = false
+	description = false
+	favicon = false
+	modinfo = false
