@@ -1,0 +1,20 @@
+menu_title: '     &8(✔) &nMagazin&r'
+open_command:
+- store
+register_command: true
+size: 9
+open_requirement:
+  requirements:
+    link_only:
+      type: string equals
+      input: 'store'
+      output: 'link'
+  deny_commands:
+  - '[message] &8[&#FFDFBAMagazin&8] &r&#FFC453➜ &fGrade, chei de crate și altele la:'
+  - '[message] &8 ♮ &#FFDFBAhttps://%rp_store_link%'
+items:
+  'relleno':
+    material: GRAY_STAINED_GLASS_PANE
+    slots:
+    - 0-8
+    display_name: ' '

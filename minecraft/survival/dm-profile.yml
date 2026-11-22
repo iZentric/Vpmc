@@ -1,0 +1,115 @@
+menu_title: '     &8(✔) &nJucător / Profil&r'
+open_command:
+- profile
+- perfil
+register_command: true
+update_interval: 1
+refresh: true
+refresh_interval: 5
+size: 54
+items:
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 17
+    - 18
+    - 26
+    - 27
+    - 35
+    - 36
+    - 44
+    - 45
+    - 46
+    - 47
+    - 48
+    - 50
+    - 51
+    - 52
+    - 53
+  head:
+    material: head-%player_name%
+    slot: 13
+    update: true
+    display_name: '&#F6D98B%player_name%'
+    lore:
+    - '&8 ■ Profil'
+    - ''
+    - '&8 ♮ &fGrad: &#D5AAFF%luckperms_primary_group_name%'
+    - '&8 ♮ &fPing: &#BFFCC6%player_ping%ms'
+    - ''
+    - '&#A8D8EA Statisticile tale pe play.viper-mc.xyz'
+  balance:
+    material: GOLD_INGOT
+    slot: 20
+    update: true
+    display_name: '&#F6D98B Bani &f⛁'
+    lore:
+    - '&8 ■ Economie'
+    - ''
+    - '&8 ♮ &fBani: &#BFFCC6$%vault_eco_balance_formatted%'
+  playtime:
+    material: CLOCK
+    slot: 21
+    update: true
+    display_name: '&#A8D8EA Timp jucat &f⌚'
+    lore:
+    - '&8 ■ Activitate'
+    - ''
+    - '&8 ♮ &fTimp jucat: &#BFFCC6%statistic_hours_played%h'
+  kills:
+    material: DIAMOND_SWORD
+    slot: 22
+    update: true
+    display_name: '&#FF4444 PvP &f⚔'
+    lore:
+    - '&8 ■ Luptă'
+    - ''
+    - '&8 ♮ &fOmoruri jucători: &#BFFCC6%statistic_player_kills%'
+    - '&8 ♮ &fMorți: &#FF4444%statistic_deaths%'
+  mobs:
+    material: ZOMBIE_HEAD
+    slot: 23
+    update: true
+    display_name: '&#D7AB93 Mobi &f☠'
+    lore:
+    - '&8 ■ Luptă'
+    - ''
+    - '&8 ♮ &fMobi omorâți: &#BFFCC6%statistic_mob_kills%'
+  fishing:
+    material: FISHING_ROD
+    slot: 24
+    update: true
+    display_name: '&#6BEAFF Pescuit &f🎣'
+    lore:
+    - '&8 ■ Pescuit'
+    - ''
+    - '&8 ♮ &fPești prinși: &#BFFCC6%statistic_fish_caught%'
+  settings:
+    material: COMPARATOR
+    slot: 31
+    display_name: '&#D5AAFF Setări &f⚙'
+    lore:
+    - '&8 ■ Jucător'
+    - ''
+    - '&#A8D8EA (✔) Click pentru a deschide setările!'
+    click_commands:
+    - '[sound] UI_BUTTON_CLICK'
+    - '[player] settings'
+  close:
+    material: BARRIER
+    slot: 49
+    display_name: '&#FF4444 Închide'
+    click_commands:
+    - '[sound] UI_BUTTON_CLICK'
+    - '[close]'

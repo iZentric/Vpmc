@@ -1,0 +1,253 @@
+menu_title: '     &8(✔) &nServer / Ghid&r'
+open_command:
+- guide
+- help
+- menu
+register_command: true
+update_interval: 1
+size: 54
+items:
+  relleno1:
+    material: GRAY_STAINED_GLASS_PANE
+    slots:
+    - 0
+    - 1
+    - 7
+    - 8
+    - 9
+    - 17
+    - 18
+    - 26
+    - 27
+    - 35
+    - 36
+    - 37
+    - 43
+    - 44
+    - 48
+    - 50
+    display_name: '&r'
+    priority: 2
+
+  relleno2:
+    material: BROWN_STAINED_GLASS_PANE
+    slots:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 38
+    - 40
+    - 42
+    - 46
+    - 47
+    - 51
+    - 52
+    display_name: '&r'
+    priority: 2
+
+  start:
+    material: BOOK
+    slot: 11
+    update: true
+    display_name: '&#BFFCC6Primii pași &f✎'
+    lore:
+    - '&8 ■ Ghid • Bazele'
+    - ''
+    - '&8 ♮ &fEști nou? Urmează acești pași'
+    - '&8   &fși începe să joci în câteva minute.'
+    - ''
+    - '&#BFFCC6 (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_start'
+
+  travel:
+    material: COMPASS
+    slot: 13
+    update: true
+    display_name: '&#A8D8EADeplasare &f⎈'
+    lore:
+    - '&8 ■ Ghid • Deplasare'
+    - ''
+    - '&8 ♮ &fTeleport aleatoriu, warps, case,'
+    - '&8   &fcereri de teleportare și warps de jucători.'
+    - ''
+    - '&#A8D8EA (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_travel'
+
+  land:
+    material: SHIELD
+    slot: 15
+    update: true
+    display_name: '&#D9FFB3Teren & Depozitare &f⛨'
+    lore:
+    - '&8 ■ Ghid • Protecție'
+    - ''
+    - '&8 ♮ &fBlocuri de claim, dimensiuni, prețuri'
+    - '&8   &fși seifuri private.'
+    - ''
+    - '&#D9FFB3 (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_land'
+
+  econ:
+    material: GOLD_INGOT
+    slot: 20
+    update: true
+    display_name: '&#FFDFBAEconomie &f⛁'
+    lore:
+    - '&8 ■ Ghid • Bani'
+    - ''
+    - '&8 ♮ &fJoburi, shop, comerț'
+    - '&8   &fși cum să faci bani.'
+    - ''
+    - '&#FFDFBA (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_economy'
+
+  prog:
+    material: EXPERIENCE_BOTTLE
+    slot: 22
+    update: true
+    display_name: '&#F3BAFFProgresie &f⚡'
+    lore:
+    - '&8 ■ Ghid • Creștere'
+    - ''
+    - '&8 ♮ &fAbilități, quest-uri, niveluri de job'
+    - '&8   &fși clasamente.'
+    - ''
+    - '&#F3BAFF (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_progress'
+
+  rew:
+    material: CHEST_MINECART
+    slot: 24
+    update: true
+    display_name: '&#B8C9DERecompense & Kituri &f❖'
+    lore:
+    - '&8 ■ Ghid • Lucruri gratuite'
+    - ''
+    - '&8 ♮ &fRecompense zilnice, zona AFK, kituri'
+    - '&8   &fși crate-uri.'
+    - ''
+    - '&#B8C9DE (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_rewards'
+
+  comb:
+    material: IRON_SWORD
+    slot: 29
+    update: true
+    display_name: '&#FF4444PvP & Siguranță &f⚔'
+    lore:
+    - '&8 ■ Ghid • Luptă'
+    - ''
+    - '&8 ♮ &fZona PvP, morminte'
+    - '&8   &fși recompense pe cap.'
+    - ''
+    - '&#FF4444 (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_combat'
+
+  rank:
+    material: NETHER_STAR
+    slot: 31
+    update: true
+    display_name: '&#FFC453Grade & Avantaje &f⭐'
+    lore:
+    - '&8 ■ Ghid • Grade'
+    - ''
+    - '&8 ♮ &fCe deblochează fiecare grad.'
+    - ''
+    - '&#FFC453 (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_ranks'
+
+  cmds:
+    material: WRITABLE_BOOK
+    slot: 33
+    update: true
+    display_name: '&#D5AAFFComenzi utile &f⌨'
+    lore:
+    - '&8 ■ Ghid • Comenzi'
+    - ''
+    - '&8 ♮ &fToate comenzile pe care le poți scrie.'
+    - ''
+    - '&#D5AAFF (✔) Click pentru a citi!'
+    click_commands:
+    - '[openguimenu] guide_commands'
+
+  discord:
+    material: NOTE_BLOCK
+    slot: 39
+    update: true
+    display_name: '&#D5AAFFDiscord &f✉'
+    lore:
+    - '&8 ■ Comunitate'
+    - ''
+    - '&8 ♮ &fIntră pe comunitatea noastră pentru ajutor,'
+    - '&8   &fevenimente și noutăți.'
+    - ''
+    - '&#D5AAFF (✔) Click pentru link!'
+    click_commands:
+    - '[message] &fhttps://%rp_discord_link%'
+    - '[close]'
+
+  about:
+    material: BEACON
+    slot: 40
+    update: true
+    display_name: '&#%rp_primary_branding_color%%rp_server_name% &f✦'
+    lore:
+    - '&8 ■ Despre server'
+    - ''
+    - '&8 ♮ &fUn server survival cu joburi, abilități,'
+    - '&8   &fquest-uri, claim de teren, shop și o'
+    - '&8   &feconomie condusă de jucători.'
+    - '&8 ♮ &fAlege o secțiune de mai sus.'
+
+  store:
+    material: EMERALD
+    slot: 41
+    update: true
+    display_name: '&#FFDFBAMagazin &f⚖'
+    lore:
+    - '&8 ■ Magazinul serverului'
+    - ''
+    - '&8 ♮ &fSusține serverul și primești'
+    - '&8   &fgrade, chei de crate și altele.'
+    - ''
+    - '&#FFDFBA (✔) Click pentru link!'
+    click_commands:
+    - '[message] &fhttps://%rp_store_link%'
+    - '[close]'
+
+  profile:
+    material: head-%player_name%
+    slot: 49
+    update: true
+    display_name: '&#FFC453Profil &f☻'
+    lore:
+    - '&8 ■ Statisticile tale'
+    - ''
+    - '&8 ♮ &fBani: &#5EEAD4⛁%vault_eco_balance_formatted%'
+    - '&8   &fTimp jucat: &#A78BFA%statistic_hours_played%h'
+    - ''
+    - '&#FFC453 (✔) Statisticile tale actuale'
+
+  close:
+    material: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==
+    slot: 53
+    update: true
+    display_name: '&#FF4444Închide &f✘'
+    lore:
+    - '&8 ■ Navigare'
+    - ''
+    - '&8 ♮ &fÎnchide acest meniu.'
+    - ''
+    - '&#FF4444 (✔) Click pentru a închide!'
+    click_commands:
+    - '[close]'
