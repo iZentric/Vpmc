@@ -1,3 +1,4 @@
+config-version: 2
 header-footer:
   enabled: true
   designs:
