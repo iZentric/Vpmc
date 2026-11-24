@@ -13,8 +13,8 @@ enable-player-address-logging = false
 forced-hosts = {}
 
 [servers]
-	lobby = "172.18.0.2:25590"
-	survival = "172.18.0.4:25591"
+	lobby = "172.18.0.2:25566"
+	survival = "172.18.0.4:25567"
 	try = ["lobby", "survival"]
 
 [advanced]
