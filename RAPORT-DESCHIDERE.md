@@ -282,3 +282,40 @@ funcționează. Nu am văzut excepții (`ERROR`/stacktrace) în porțiunile citi
 Ce e dovedit la acest moment: 3 backup-uri verificate cu checksum, whitelist oprit, TPS 20 pe ambele
 servere, `connection-throttle` corect, parkour funcțional, zero `ERROR` în porțiunile de log citite,
 MOTD/chat/tab în română (livrate anterior), VeloAuth activ în română.
+
+---
+
+## 14. NON-PREMIUM (cracked) — corecție aplicată
+
+Serverul este **non-premium**, cu autentificare prin **VeloAuth** pe proxy. Am auditat ce ar putea
+bloca jucătorii non-premium și am găsit o problemă reală:
+
+| Server | `enforce-secure-profile` ÎNAINTE | ACUM | De ce conta |
+|---|---|---|---|
+| Lobby | **true** ← ar fi respins clienții non-premium | **false** | cu `online-mode=false`, cerința de profil semnat Mojang produce eșec la login pentru conturile non-premium |
+| Survival | false | false | deja corect |
+
+Aplicat în același lot (Regula 3): backup `server-original.properties` pe ambele servere, fișier
+validat, livrat prin `files/pull` (commit `48f4b32`), **restart** pe ambele.
+
+| Server | `allow-flight` ÎNAINTE | ACUM | Motiv |
+|---|---|---|---|
+| Lobby | false | **true** | elimină kick-urile false „Flying is not enabled" (JumpPads, elytra, poțiuni) |
+| Survival | true | true | deja corect |
+
+`max-players`: 200 pe ambele (valoarea a revenit la 200 pe Lobby la salvare; 200 e suficient pentru
+lansare, nu insist). `online-mode=false` păstrat pe toate cele trei componente — **corect** pentru
+non-premium cu VeloAuth. OP: doar `iZentric` + `ViperX59` (conturile tale, câte o intrare premium +
+una offline fiecare).
+
+**ERROR rămas în log (inofensiv, extern):** `[FancyAnalytics] Failed to create record (status 502)`
+— pluginul de telemetrie Fancy nu poate contacta serverul lor (nginx 502). Nu afectează jucătorii.
+Opțiuni: îl lași (zgomot în log) sau dezactivezi modulul de telemetrie după lansare. **Nu l-am atins.**
+
+### P0 rămas (neschimbat)
+Backend-urile sunt publicate pe `169.58.65.236:25566` (Lobby, + alocare secundară `:25569`) și
+`:25567` (Survival) — verificat prin API (`network/allocations`). Pe un server **non-premium** asta
+înseamnă: cine se conectează direct la backend **nu trece prin VeloAuth**, deci intră fără `/login`.
+`server-ip` nu ajută (Docker face DNAT către IP-ul containerului), deci singurele variante sunt
+firewall pe host (recomandat, zero risc) sau `modern forwarding` cu secret (necesită test de login
+real înainte de lansare, pe care nu-l pot face eu).
