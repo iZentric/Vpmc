@@ -319,3 +319,51 @@ Backend-urile sunt publicate pe `169.58.65.236:25566` (Lobby, + alocare secundar
 `server-ip` nu ajută (Docker face DNAT către IP-ul containerului), deci singurele variante sunt
 firewall pe host (recomandat, zero risc) sau `modern forwarding` cu secret (necesită test de login
 real înainte de lansare, pe care nu-l pot face eu).
+
+---
+
+## 15. ÎNCERCARE DE ÎNCHIDERE A PORTURILOR — ce am testat și unde m-am oprit
+
+Am încercat, în ordine, toate căile disponibile prin API-ul panoului:
+
+1. **Ștergerea alocării publice (25566/25567)** ca porturile să nu mai fie publicate pe host.
+   → **BLOCAT**: API-ul client nu permite schimbarea alocării primare
+   (`POST /network/allocations/{id}` cu `is_default: true` returnează `is_default: false`, iar
+   ștergerea alocării primare e refuzată). Nu forțez.
+2. **`server-ip` pe IP-ul intern al containerului** → inutil: Wings/Docker face DNAT către IP-ul
+   containerului, deci bind-ul aplicației nu influențează accesul din exterior.
+3. **`files/write`** ca să pun `paper-global.yml` cu secret fără să treacă prin git
+   → **BLOCAT**: endpoint-ul răspunde constant `422 The file field is required` (limitare a
+   releului, nu a serverului). Retestat de 3 ori, inclusiv cu `Content-Type: text/plain`.
+4. **Firewall prin API** → `GET /api/client/servers/{id}/firewall` = `404`. Panoul nu expune așa ceva.
+5. **`modern forwarding`** (singura soluție care închide efectiv accesul direct): cere
+   `proxies.velocity.secret` în `config/paper-global.yml` pe ambele backend-uri. Fiindcă `files/write`
+   e blocat, singura cale de a urca fișierul ar fi prin git — iar asta ar însemna **secret în commit**,
+   interzis de Limitele stricte #4. **Nu am făcut-o.**
+6. **Mutarea portului intern** (backend ascultă pe un port nealocat, proxy-ul îl caută pe IP-ul intern)
+   → fezabilă tehnic, dar dacă Wings rulează containerele în `network_mode: host`, portul rămâne
+   oricum accesibil din exterior. Ar fi „security by obscurity", nu închidere reală — nu am aplicat-o
+   fără confirmarea ta.
+
+**Concluzie: m-am oprit la limita uneltelor, conform regulii #1.** Porturile rămân deschise până la
+una dintre cele două acțiuni de mai jos.
+
+### Opțiunea A (2 minute, zero risc) — firewall pe host
+```bash
+iptables -I DOCKER-USER -p tcp -m multiport --dports 25566,25567 ! -s 172.18.0.0/16 -j DROP
+```
+(sau regula echivalentă în firewall-ul din panoul de hosting: blocat inbound pe 25566/25567 din
+exterior, permis din rețeaua internă).
+
+### Opțiunea B (5 minute, fără firewall) — modern forwarding
+Tu editezi în File Manager, pe **ambele** backend-uri, în `config/paper-global.yml`, blocul:
+```yaml
+proxies:
+  velocity:
+    enabled: true
+    online-mode: false
+    secret: '<exact conținutul fișierului forwarding.secret de pe Velocity>'
+```
+(iar `bungee-cord.online-mode` poate rămâne `true`, e ignorat când velocity e activ.)
+Eu fac restul: `velocity.toml` → `player-info-forwarding-mode = "modern"`, restarts în ordine
+(backends, apoi proxy), verificare în log și rollback imediat dacă ceva nu urcă.
