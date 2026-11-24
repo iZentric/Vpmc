@@ -206,3 +206,79 @@ Pe Survival sunt instalate `Geyser-Spigot` + `floodgate`, dar VeloAuth raporteaz
 `Floodgate support: disabled`. Consecință probabilă: jucătorii de pe Bedrock (prefix `floodgate`)
 fie nu pot trece de autentificare, fie o ocolesc. **NEVERIFICAT** — necesită test cu client Bedrock
 înainte de lansare, dacă vrei să anunți suport Bedrock.
+
+---
+
+## 12. FAZA 1 (continuare) — audit Survival + modificare aplicată
+
+### Modificare aplicată (Regula 3 respectată: backup → edit → validare → restart → log)
+
+| Ce | Valoare veche | Valoare nouă | De ce |
+|---|---|---|---|
+| Survival `bukkit.yml` → `settings.connection-throttle` | `4000` | `-1` | în spatele proxy-ului toate conexiunile vin de la același IP; la deschidere, jucătorii legitimi ar primi „Connection throttled" |
+| Lobby `bukkit.yml` → același câmp | `-1` | `-1` (deja corect) | — |
+
+Procedură: original salvat ca **`/bukkit-original.yml`** pe server; fișierul nou validat YAML local
+(`yaml.safe_load` → OK, valoare `-1`); livrat prin `files/pull` din commit `5c41bda`; **restart complet**
+(nu /reload). Dovadă după restart: `TPS 20.0, 20.0, 20.0, 20.0, 20.0`, `Server empty for 60 seconds,
+pausing` (normal, fără jucători). Singurul tick mare (`1530 ms`) este o singură probă în timpul
+încărcării chunk-urilor la boot, nu o stare staționară.
+
+### `server.properties` (Survival) — citit integral
+
+| Cheie | Valoare | Verdict |
+|---|---|---|
+| `online-mode` | `false` | **corect** în contextul VeloAuth (cracked + premium resolver) |
+| `allow-flight` | `true` | ✅ evita kick-urile false „Flying is not enabled" |
+| `enable-rcon` / `enable-query` | `false` / `false` | ✅ nimic expus |
+| `enforce-secure-profile` | `false` | ✅ necesar pentru cracked |
+| `enforce-whitelist` | `false` | ✅ whitelist-ul nu blochează (5 nume rămân în listă, inofensiv) |
+| `max-players` | `100` | ⚠️ recomand 300 pentru seara deschiderii (se schimbă în `server.properties`, necesită restart) |
+| `view-distance` / `simulation-distance` | `10` / `6` | ✅ rezonabil |
+| `spawn-protection` | `0` | ⚠️ spawn-ul din Survival nu e protejat vanilla; se bazează pe WorldGuard/ProtectionStones — de confirmat în joc |
+| `log-ips` | `true` | GDPR: recomand `false` (proxy-ul are deja `enable-player-address-logging=false`) |
+| `pause-when-empty-seconds` | `60` | informativ (explică „pauzele" din log) |
+| `motd` | `Ultimate Survival` | nu se vede la jucători (MOTD vine din proxy/MiniMOTD) |
+
+### Pluginuri Survival — 62 încărcate (Paper 26.3-258)
+
+Paper plugins (8): DeluxeMenus, EconomyShopGUI, ExcellentCrates, FancyHolograms, FancyNpcs, MiniMOTD, nightcore, PlugManX.
+Bukkit (54): ajLeaderboards, AlonsoTags, Announcement, AuctionHouse, AuraSkills, AxAFKZone, AxGraves,
+AxInventoryRestore, AxPlayerWarps, AxRewards, AxTrade, AxVaults, BetterRTP, CMILib, CoinFlipZ,
+CommandWhitelist, ConditionalEvents, Essentials, EssentialsSpawn, EvenMoreFish, EzChat, FAWE, floodgate,
+Geyser-Spigot, GSit, Jobs, LuckPerms, Multiverse-Core, NBTAPI, NotBounties, packetevents, PlaceholderAPI,
+PlayerKits2, ProtectionStones, qscompat-worldguard, Quests, QuickShop-Hikari, rnCasino, rnChatGames,
+rnCombatPvP, rnKoth, rnPsMenu, RocketPlaceholders, SilkSpawners_v2, SimplePortals, SuperbVote, TAB, Vault,
+ViaBackwards, ViaRewind, ViaVersion, VoidGen, Votifier, WorldGuard.
+
+Avertismente noi: `TAB` raportează 13 secțiuni lipsă din `config.yml` (derive de versiune — TAB completează
+singur valorile implicite, cosmetic); `PlayerKits² 1.24.3` disponibil; `AxInventoryRestore 3.18.0` disponibil.
+**Nu actualizez nimic înainte de lansare (Regula 5).**
+
+### Acoperirea auditului de log — ONEST
+Am citit integral logul Lobby (6 bucăți) și **eșantionat** logul Survival (2 din 14 bucăți: faza de
+încărcare biblioteci și faza de enable pluginuri/jobs). Logul Velocity a fost citit pe zona de start + VeloAuth.
+**Scanarea 1:1 a tuturor celor 14 bucăți Survival rămâne NEVERIFICATĂ** (timp/context), deși metoda
+funcționează. Nu am văzut excepții (`ERROR`/stacktrace) în porțiunile citite.
+
+---
+
+## 13. VERDICT FINAL (pentru acest moment)
+
+**NU E GATA.** Ce lipsește, în ordinea importanței:
+
+1. **P0 — backend-urile expuse direct** (`0.0.0.0:25566`, `0.0.0.0:25567`): ocolesc VeloAuth.
+   Necesită firewall (recomandat) sau modern forwarding. **Aștept decizia ta.**
+2. **P1 — test end-to-end cu client real**: nu pot intra în joc; scenariile din Faza 5 (login,
+   Lobby↔Survival, fallback la restart, permisiuni jucător/staff/owner, claim, shop, kit) sunt
+   NEVERIFICATE.
+3. **P1 — scanarea completă a logurilor Survival** (14 bucăți) + Velocity.
+4. **P1 — traducerea pluginurilor de Survival** (Jobs are 21 joburi cu nume în engleză, Quests
+   10 questuri × 21 joburi, AuraSkills, AuctionHouse, GSit, PlayerKits, crates, shop, mesaje Essentials).
+5. **P1 — Bedrock**: Geyser + Floodgate instalate, dar VeloAuth are `Floodgate support: disabled`.
+6. **P1 — `max-players=100`** → recomand 300 pentru seara deschiderii.
+7. **P2 — hologramele Lobby** (decizie de design) și top-urile locale ajLeaderboards.
+
+Ce e dovedit la acest moment: 3 backup-uri verificate cu checksum, whitelist oprit, TPS 20 pe ambele
+servere, `connection-throttle` corect, parkour funcțional, zero `ERROR` în porțiunile de log citite,
+MOTD/chat/tab în română (livrate anterior), VeloAuth activ în română.
