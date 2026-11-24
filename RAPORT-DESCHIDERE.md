@@ -177,3 +177,32 @@ Deci **pot citi logurile întregi** — Faza 1 nu mai e blocată.
 Java **25 (Temurin 25.0.5.1)**, Leaf 1.21.11-184, 27 pluginuri, `Starting Minecraft server on 0.0.0.0:25566`,
 spawn pregătit în 2 ms, `Done` fără excepții. `velocity.toml`: `lobby = 172.18.0.2:25566`,
 `survival = 172.18.0.4:25567` (rețea Docker internă — corect), `login-ratelimit = 0`.
+
+---
+
+## 11. CORECȚIE P0 — există plugin de login la nivel de proxy (VeloAuth)
+
+Verificat în logul Velocity:
+
+```
+[veloauth]: Auth server 'veloauth-embedded-limbo' configured (mode=embedded ...)
+[veloauth]: [PremiumResolver] Config - Mojang (official) : true, Ashcon: true
+[veloauth]: Floodgate support: disabled (effective prefix='.', auth bypass=true)
+[veloauth]: Initialized in 9016 ms (H2 database, ro language, ...)
+[veloauth]: Ready - player connections allowed
+```
+
+Deci `online-mode=false` pe proxy este **intenționat** (cracked + suport premium prin resolver),
+iar autentificarea se face prin `/login` / `/register` în limbo-ul VeloAuth, în română.
+**Nu modific `online-mode`.** Riscul de „intru cu nick-ul altuia" prin proxy este acoperit de parolă.
+
+**Ce rămâne P0 (și devine mai grav, nu mai puțin):** backend-urile ascultă pe `0.0.0.0:25566/25567`
+și sunt accesibile public. O conexiune directă la ele **ocolește complet VeloAuth** (nu trece prin
+proxy ⇒ fără `/login`). Fix: firewall pe host (doar IP-ul containerului proxy) **sau**
+`modern forwarding` cu secret. Necesită decizia ta pe variantă.
+
+### P1 nou — Bedrock (Geyser + Floodgate)
+Pe Survival sunt instalate `Geyser-Spigot` + `floodgate`, dar VeloAuth raportează
+`Floodgate support: disabled`. Consecință probabilă: jucătorii de pe Bedrock (prefix `floodgate`)
+fie nu pot trece de autentificare, fie o ocolesc. **NEVERIFICAT** — necesită test cu client Bedrock
+înainte de lansare, dacă vrei să anunți suport Bedrock.
