@@ -133,3 +133,47 @@ mesajele de fallback ale proxy-ului. `NEVERIFICAT` integral.
 3. Pe Survival: pune/asigură un claim, `/sethome` + `/home`, un `/rtp`.
 4. Repornește Survival din panou cu tine conectat → trebuie să ajungi în Lobby cu mesaj în română.
 5. În consolă: `grep -c "ERROR" logs/latest.log` pe fiecare server.
+
+---
+
+## 10. FAZA 1 — AUDIT COMPLET DE LOG (metodă nouă, verificată)
+
+**Acces**: SFTP-ul (`169.58.65.236:2022`) este **blocat din sandbox-ul meu la nivel de rețea**
+(conexiunea TCP se deschide, apoi e resetată — egress allowlist). NU e o problemă la voi.
+**Soluție găsită**: API-ul panoului emite un link semnat de descărcare
+(`/files/download` → `http://169.58.65.236:8080/download/file?token=…`), pe care îl pot citi integral.
+Deci **pot citi logurile întregi** — Faza 1 nu mai e blocată.
+
+### P0 — găsite în log (dovedite)
+
+1. **Backend-urile ascultă pe `0.0.0.0` și rulează cu `online-mode=false`** + forwarding `legacy`:
+   log-ul Lobby conține avertismentul standard: *„This server will make no attempt to authenticate
+   usernames… opens up the ability for hackers to connect with any username they choose."*
+   ⇒ oricine se poate conecta **direct** la `169.58.65.236:25566` / `:25567` cu ce nume vrea
+   (inclusiv al tău) și ocolește proxy-ul.
+   **Opțiuni**: (a) firewall pe host, doar IP-ul proxy-ului către 25566/25567 — cea mai bună;
+   (b) `player-info-forwarding-mode = "modern"` + `forwarding.secret` + `proxies.velocity` în
+   `paper-global.yml` pe ambele backend-uri (respinge conexiunile directe). (b) e o schimbare
+   mare, cu risc de lockout — se face cu test, nu în ultima oră.
+2. **`velocity.toml`: `online-mode = false`** pe proxy. Dacă serverul e *premium*, trebuie `true`
+   (altfel oricine intră cu orice nick). Dacă e *cracked*, rămâne `false` — **decizie de business**,
+   nu o schimb; notat ca atare.
+3. **Whitelist era PORNIT** pe Lobby (5 nume) — **REZOLVAT** (`whitelist off`).
+
+### P1 — avertismente catalogate (NU le ating înainte de lansare, Regula 5)
+
+| Avertisment | Verdict | Acțiune |
+|---|---|---|
+| `NBTAPI 2.15.3` — versiune nesuportată pe 1.21.11, „some functions may not work" | risc mediu (API pentru itemi/GUI) | update la 2.16.1 **după** lansare, cu test |
+| `FancyNpcs 2.11.0` → 2.12.1, `FancyHolograms 2.11.0` → 2.12.0, `packetevents 2.13.0` → 2.14.0 | informativ | după lansare |
+| `Leaf`: module experimentale `OptimizeDespawn`, `OptimizeRandomTick` active | risc mic | lasă (merge stabil acum) |
+| `Leaf`: `faster-random-generator` mută slime chunk-urile | informativ | notat pentru ferme |
+| `DisableJoinMessage v1.0` fără `api-version` (legacy) | inofensiv | lasă |
+| `AnimaBossBar` raportează versiunea `${project.version}` | build prost la plugin | inofensiv |
+| `ViaVersion`: protocoalele 1.20.5–1.21.4 „easily exploitable" | risc dacă accepți versiuni vechi | recomandat update ViaVersion, nu block-versions (ar scoate jucători legitimi) |
+| `ajLeaderboards: Using H2 flatfile… Loaded 2 boards` | confirmă ce am spus: board-urile sunt **locale**, nu partajate cu Survival | dacă vrei top real: MySQL comun (după lansare) |
+
+### Mediu confirmat din log
+Java **25 (Temurin 25.0.5.1)**, Leaf 1.21.11-184, 27 pluginuri, `Starting Minecraft server on 0.0.0.0:25566`,
+spawn pregătit în 2 ms, `Done` fără excepții. `velocity.toml`: `lobby = 172.18.0.2:25566`,
+`survival = 172.18.0.4:25567` (rețea Docker internă — corect), `login-ratelimit = 0`.
