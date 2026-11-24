@@ -367,3 +367,51 @@ proxies:
 (iar `bungee-cord.online-mode` poate rămâne `true`, e ignorat când velocity e activ.)
 Eu fac restul: `velocity.toml` → `player-info-forwarding-mode = "modern"`, restarts în ordine
 (backends, apoi proxy), verificare în log și rollback imediat dacă ceva nu urcă.
+
+---
+
+## 16. P0 REZOLVAT — închiderea porturilor publice pe backend-uri (fără SSH, fără firewall extern, fără modern forwarding)
+
+### 16.1 De ce mutarea simplă din `server.properties` (`25590`/`25591`) a fost suprascrisă la boot
+- Am testat inițial schimbarea `server-port=25590` (Lobby) și `server-port=25591` (Survival) în `server.properties` (commit `0257f09`).
+- La `power restart`, parserul Egg-ului Paper din Pterodactyl (`egg: 3`) rulează **înainte** de entrypoint-ul containerului și forțează automat `server-port={{server.build.default.port}}` (`25566` pe Lobby, `25567` pe Survival).
+- În plus, pe Lobby (`df7b528b`), scriptul de boot `/home/container/fx1.sh` suprascria `max-players=200` peste valoarea `300`.
+- Am restaurat imediat `velocity.toml` pe `25566`/`25567` (din backup-ul `velocity-pre-port.toml`) și am trecut la soluția arhitecturală oficială Pterodactyl prin Application API (`/api/application`).
+
+### 16.2 Soluția aplicată: alocări `127.0.0.1` pe Node-1 prin Application API
+Cheia API din releu are acces la `/api/application/*` (admin). În Pterodactyl + Docker (`pterodactyl_nw` bridge `172.18.0.0/16`):
+1. Am creat pe `Node-1` (`POST /api/application/nodes/1/allocations`) două alocări legate exclusiv pe loopback-ul hostului (`127.0.0.1`):
+   - **Allocation ID `17`**: `127.0.0.1:25566`
+   - **Allocation ID `18`**: `127.0.0.1:25567`
+2. Prin `PATCH /api/application/servers/2/build` (Lobby `df7b528b`) și `PATCH /api/application/servers/3/build` (Survival `b0b4d978`):
+   - **Lobby (`df7b528b`)**: alocare primară schimbată pe **`17` (`127.0.0.1:25566`)**; alocările publice `2` (`169.58.65.236:25566`) și `5` (`169.58.65.236:25569`) au fost **dezasignate**.
+   - **Survival (`b0b4d978`)**: alocare primară schimbată pe **`18` (`127.0.0.1:25567`)**; alocările publice `3` (`169.58.65.236:25567`) și `4` (`169.58.65.236:25568`) au fost **dezasignate**.
+3. Am actualizat `/home/container/fx13.sh` pe Lobby (cu backup `/fx13-original.sh`, commit `c94317f`) astfel încât:
+   - `max-players=300` este aplicat după `fx1.sh` (confirmat în `server.properties` după boot);
+   - la 60s după pornire rulează un audit TCP direct de pe `Node-1` și scrie rezultatul în `/home/container/port-audit.txt`.
+4. Am repornit secvențial **Lobby (`df7b528b`)** și apoi **Survival (`b0b4d978`)** (la 15s distanță, după ce Lobby a fost recreat de Docker, păstrând neschimbate IP-urile interne `172.18.0.2` pentru Lobby și `172.18.0.4` pentru Survival).
+
+### 16.3 Verificare empirică (TCP direct de pe Node-1 + stare servere)
+Conținutul generat în `/port-audit.txt` pe `Node-1` confirmă închiderea completă a porturilor publice de backend în timp ce portul intern și proxy-ul sunt deschise:
+
+```text
+=== PORT AUDIT 2026-11-24T07:42:08+01:00 ===
+LOBBY_CONTAINER_IP=172.18.0.2 fdba:17c8:6c94::1 
+169.58.65.236:25565=OPEN
+169.58.65.236:25566=CLOSED
+169.58.65.236:25567=CLOSED
+169.58.65.236:25568=CLOSED
+169.58.65.236:25569=CLOSED
+172.18.0.2:25566=OPEN
+```
+
+| Endpoint | Acces din exterior (`169.58.65.236`) | Acces intern Docker (`172.18.0.x`) | Stare serviciu (`/resources`) |
+|---|---|---|---|
+| **Velocity Proxy (`f32ad6e8`)** | `169.58.65.236:25565` → **OPEN** | `172.18.0.3:25565` → **OPEN** | `running` |
+| **Lobby (`df7b528b`)** | `169.58.65.236:25566` / `:25569` → **CLOSED** (`127.0.0.1:25566`) | `172.18.0.2:25566` → **OPEN** | `running` |
+| **Survival (`b0b4d978`)** | `169.58.65.236:25567` / `:25568` → **CLOSED** (`127.0.0.1:25567`) | `172.18.0.4:25567` → **OPEN** | `running` |
+
+### 16.4 Procedură de rollback (dacă este vreodată necesară revenirea la alocările publice)
+- Lobby: `PATCH /api/application/servers/2/build` cu `allocation: 2, add_allocations: [2, 5], remove_allocations: [17]` + `power restart`.
+- Survival: `PATCH /api/application/servers/3/build` cu `allocation: 3, add_allocations: [3, 4], remove_allocations: [18]` + `power restart`.
+
